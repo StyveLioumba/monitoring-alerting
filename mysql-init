@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` text,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `articles` (`title`, `content`, `created_at`) VALUES
+('Article 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, magna a fringilla egestas, ipsum velit congue augue, in facilisis justo odio at velit.', '2023-03-14 10:00:00'),
+('Article 2', 'Curabitur ullamcorper dui quis lorem imperdiet, ut eleifend tellus scelerisque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.', '2023-03-14 11:00:00'),
+('Article 3', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu facilisis dui, a scelerisque urna nisi eget metus.', '2023-03-14 12:00:00');
+
+
+-- Création de la table pour stocker les métriques
+CREATE TABLE metrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    metric_name VARCHAR(255) NOT NULL,
+    metric_value DOUBLE NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Exemple d'insertion de données (optionnel)
+INSERT INTO metrics (metric_name, metric_value, timestamp)
+VALUES
+('http_requests_total', 100, '2024-06-13 12:00:00'),
+('cpu_usage', 75.5, '2024-06-13 12:05:00');
