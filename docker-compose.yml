@@ -12,8 +12,8 @@ services:
       MYSQL_PASSWORD: test
     ports:
       - "3306:3306"
-    networks:
-      - mysql-net
+    # networks:
+    #   - grafana-net
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -23,19 +23,22 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: root
-    networks:
-      - mysql-net
+    # networks:
+    #   - grafana-net
 
 
   mysqld-exporter:
     image: prom/mysqld-exporter
     container_name: mysqld-exporter
-    environment:
-      DATA_SOURCE_NAME: root:root@(mysqld:3306)/test
     ports:
       - 9104:9104
-    networks:
-      - mysql-net
+    command:
+     - --config.my-cnf=/cfg/.my.cnf
+     - --mysqld.address=mysql:3306
+    volumes:
+      - "./my.cnf:/cfg/.my.cnf"
+    # networks:
+    #   - grafana-net
 
 
   prometheus:
@@ -45,8 +48,8 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - prometheus-net
+    # networks:
+    #   - grafana-net
 
   grafana:
     image: grafana/grafana
@@ -54,11 +57,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin
-    networks:
-      - grafana-net
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    # networks:
+    #   - grafana-net
 
-networks:
-  grafana-net:
-  prometheus-net:
-  mysql-net:
+# networks:
+#   grafana-net:
+#   prometheus-net:
+#   mysql-net:
